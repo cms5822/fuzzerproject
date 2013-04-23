@@ -41,11 +41,10 @@ public class BasicFuzzer {
 	 * @throws URISyntaxException 
 	 */
 	private static void discoverLinks(WebClient webClient, String webPage) throws IOException, MalformedURLException{
-		boolean newPage = false;
-		
 		HtmlPage page = webClient.getPage(webPage);
 		List<HtmlAnchor> links = page.getAnchors();
 		for (HtmlAnchor link : links) {
+			boolean newPage = false;
 			//System.out.println("Link discovered: " + link.asText() + " @URL=" + link.getHrefAttribute());
 			
 			URL uri = new URL(Properties.webPage + link.getHrefAttribute());
@@ -56,11 +55,19 @@ public class BasicFuzzer {
 			if(uri.getQuery() != null){
 				String param = uri.getQuery().split("=")[0];
 				newPage = pagesParams.get(uri.getPath()).add(param);
-				System.out.println("Adding page " + uri.getPath() + " with query " + param);
+				if(newPage){
+					System.out.println("Adding page " + uri.getPath() + " with query " + param);
+					discoverLinks(webClient, uri.toString());
+				}
 			}
-			if(newPage){
-				discoverLinks(webClient, uri.toString());
+			else{
+				newPage = pagesParams.get(uri.getPath()).add(null);
+				if(newPage){
+					System.out.println("Adding page " + uri.getPath() + " with query " + null);
+					discoverLinks(webClient, uri.toString());
+				}
 			}
+			
 		}
 	}
 
