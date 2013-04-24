@@ -29,11 +29,17 @@ public class BasicFuzzer {
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		WebClient webClient = new WebClient();
 		webClient.setJavaScriptEnabled(true);
+<<<<<<< HEAD
 		discoverLinks(webClient, currentPage);
+		System.out.println("Done finding inputs");
+
+=======
+		discoverLinks(webClient, Properties.webPage);
 		System.out.println("Done finding links");
 		//doFormPost(webClient);
-		discoverPages(webClient, currentPage);
+		discoverPages(webClient, Properties.webPage);
 		System.out.println("Done finding secret pages");
+>>>>>>> origin/master
 		webClient.closeAllWindows();
 	}
 
@@ -90,7 +96,7 @@ public class BasicFuzzer {
 	 */
 	private static void discoverPages(WebClient webClient, String webPage) throws IOException, MalformedURLException{
 		for (String secretURL : Properties.secretPages){
-			for(String extension : Properties.pageEndings){
+			for(String extension : Properties.pageEndsing){
 				try{
 					HtmlPage page = webClient.getPage(webPage + "/" + secretURL + extension);
 					System.out.println("URL-Discovery: Secret URL found " + webPage + secretURL + extension);
@@ -123,4 +129,24 @@ public class BasicFuzzer {
 			}
 		}
 	}
+	
+	
+//	/**
+//	 * This code is for demonstrating techniques for submitting an HTML form. Fuzzer code would need to be
+//	 * more generalized
+//	 * @param webClient
+//	 * @throws FailingHttpStatusCodeException
+//	 * @throws MalformedURLException
+//	 * @throws IOException
+//	 */
+//	private static void doFormPost(WebClient webClient) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
+//		HtmlPage page = webClient.getPage(Properties.webPage + "product.jsp?prodid=26");
+//		List<HtmlForm> forms = page.getForms();
+//		for (HtmlForm form : forms) {
+//			HtmlInput input = form.getInputByName("quantity");
+//			input.setValueAttribute("2");
+//			HtmlSubmitInput submit = (HtmlSubmitInput) form.getFirstByXPath("//input[@id='submit']");
+//			System.out.println(submit.<HtmlPage> click().getWebResponse().getContentAsString());
+//		}
+//	}
 }
