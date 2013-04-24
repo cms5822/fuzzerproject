@@ -21,26 +21,30 @@ public class BasicFuzzer {
 
 	// Map of page url to inputs (query params and form fields)
 	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
-	private static final String currentPage = Properties.currentPage;
+	private static final Properties properties = new Properties();
+	
+	private static final String currentPage = properties.currentPage;
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
+
 		discoverLinks(webClient, currentPage);
 		System.out.println("Done finding links");
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
-		testAuthentication(webClient, Properties.loginPage);
+		testAuthentication(webClient, properties.loginPage);
 		if(Properties.passwordGuess){
-			boolean easyPasswords = allowsEasyPasswords(webClient, Properties.registerPage);
+			boolean easyPasswords = allowsEasyPasswords(webClient, properties.registerPage);
 			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
 		}
-		
-		//fuzzQueryInputs(webClient, Properties.urlBase);
-		//fuzzFormInputs(webClient, Properties.urlBase);
-		
+//		
+//		//fuzzQueryInputs(webClient, Properties.urlBase);
+//		//fuzzFormInputs(webClient, Properties.urlBase);
+//		
 		webClient.closeAllWindows();
 
+		System.out.println("Results:");
 		for(String s : pagesParams.keySet()){
 			System.out.println(pagesParams.get(s));
 		}
@@ -61,8 +65,19 @@ public class BasicFuzzer {
 			boolean newPage = false;
 			//System.out.println("Link discovered: " + link.asText() + " @URL=" + link.getHrefAttribute());
 			
-			URL uri = new URL(currentPage + link.getHrefAttribute());
-			
+			URL uri = null;
+			// check for absolute or relative path
+			if(link.getHrefAttribute().matches("https?://")){	// hopefully matches http:// or https://
+				// Make sure we aren't leaving the current application
+				if(link.getHrefAttribute().startsWith(currentPage)){
+					uri = new URL(link.getHrefAttribute());
+				}
+				else{
+					continue;
+				}
+			}else{
+				uri = new URL(currentPage + link.getHrefAttribute());	
+			}
 			if (!pagesParams.containsKey(uri.getPath())){
 				pagesParams.put(uri.getPath(), new PageInput(uri.getPath()));
 			}
@@ -72,7 +87,7 @@ public class BasicFuzzer {
 				String val = uri.getQuery().split("=")[1];
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(param, val);
 				if(newPage){
-					//System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
+					System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
 					discoverLinks(webClient, uri.toString());
 					discoverForms(webClient, webPage);
 					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
@@ -82,7 +97,7 @@ public class BasicFuzzer {
 			else{
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(null, null);
 				if(newPage){
-					//System.out.println("Adding page " + uri.getPath() + " with query " + null);
+					System.out.println("Adding page " + uri.getPath() + " with query " + null);
 					discoverLinks(webClient, uri.toString());
 					discoverForms(webClient, webPage);
 					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
@@ -162,8 +177,8 @@ public class BasicFuzzer {
 	private static void testAuthentication(WebClient webClient, String webPage) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		try{
 			HtmlPage page = webClient.getPage(webPage);
-			page.getElementByName(Properties.userFormField).setAttribute("value", Properties.username);
-			page.getElementByName(Properties.passwordFormField).setAttribute("value", Properties.password);
+			page.getElementByName(properties.loginUserFormField).setAttribute("value", properties.username);
+			page.getElementByName(properties.loginPasswordFormField).setAttribute("value", properties.password);
 			page.getElementById("submit").click();
 			System.out.println("Authentication sucessful");
 			// Some way of reporting improper data
@@ -185,9 +200,9 @@ public class BasicFuzzer {
 
 		for(String p : Properties.easyPasswords){
 			try{
-    			page.getElementByName(Properties.userFormField).setAttribute("value", Properties.username);
-    			page.getElementByName(Properties.registerPasswordFormField).setAttribute("value", p);
-    			page.getElementByName(Properties.confirmPasswordFormField).setAttribute("value", p);
+    			page.getElementByName(properties.registerUserFormField).setAttribute("value", properties.username);
+    			page.getElementByName(properties.registerPasswordFormField).setAttribute("value", p);
+    			page.getElementByName(properties.confirmPasswordFormField).setAttribute("value", p);
     			
     			HtmlPage newPage = page.getElementById("submit").click();
     			return true;

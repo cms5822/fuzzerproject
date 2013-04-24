@@ -1,17 +1,12 @@
 package example.fuzzer;
 
 public class Properties {
-	//public static final String webPage = "http://192.168.1.131:8080/bodgeit/";
-	public static final String urlBase = "http://129.21.12.221:8080";
-	//public static final String urlBase = "http://129.21.12.221";
-
-	public static final String bodgeit = urlBase + "/bodgeit/";
-	public static final String dvwa = urlBase + "/";
-	public static final String jpetstore = urlBase + "/jpetstore/";
-
-	public static final String currentPage = bodgeit;
-	public static final String registerPage = currentPage + "register.jsp";
-	public static final String loginPage = currentPage + "login.jsp";
+	PageProperties pp = new BodgeitProperties();
+	
+	public final String urlBase;
+	public final String currentPage;
+	public final String registerPage;
+	public final String loginPage;
 
 	public static final String[] secretPages = new String[]{
 		"admin", "secret"
@@ -29,15 +24,14 @@ public class Properties {
 	
 	public static final boolean passwordGuess = true;
 
-	public static final String username = "username";
-	public static final String userFormField = "username";
-	public static final String password = "password";
-	public static final String passwordFormField = "password";
-	
-	public static final String registerPasswordFormField = "password1";
-	public static final String confirmPasswordFormField = "password2";
+	public final String username;
+	public final String password;
+	public final String loginUserFormField;
+	public final String loginPasswordFormField;
+	public final String registerUserFormField;
+	public final String registerPasswordFormField;
+	public final String confirmPasswordFormField;
 
-	public static final String testUserName = "test@test.com";
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
 	};
@@ -48,4 +42,19 @@ public class Properties {
 		Long.toString(Long.MAX_VALUE), Long.toString(Long.MIN_VALUE),
 		"<script>alert(\"XXS\")</script>"
 	};
+	
+	public Properties(){
+		urlBase = pp.baseUrl;
+		currentPage = pp.pageUrl;
+		registerPage = pp.registerPage;
+		loginPage = pp.loginPage;
+		username = pp.validUsername;
+		password = pp.validPassword;
+		loginUserFormField = pp.loginUsernameFormField;
+		loginPasswordFormField = pp.loginPasswordFormField;
+		registerUserFormField = pp.registerUsernameFormField;
+		registerPasswordFormField = pp.registerPasswordFormField1;
+		confirmPasswordFormField = pp.registerPasswordFormField2;
+		
+	}
 }
