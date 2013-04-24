@@ -24,15 +24,19 @@ public class BasicFuzzer {
 	// Map of page url to inputs (query params and form fields)
 	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
 	private static final String currentPage = Properties.bodgeit;
+	private static final String registerPage = currentPage + "register.jsp";
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 		discoverLinks(webClient, currentPage);
-		//System.out.println("Done finding links");
-		//doFormPost(webClient);
+		System.out.println("Done finding links");
 		discoverPages(webClient, currentPage);
-		//System.out.println("Done finding secret pages");
+		System.out.println("Done finding secret pages");
+		
+		if(Properties.passwordGuess){
+			boolean easyPasswords = allowsEasyPasswords(webClient, registerPage);
+		}
 		
 		webClient.closeAllWindows();
 
@@ -150,5 +154,24 @@ public class BasicFuzzer {
 		}
 		
 		return htmlInput;
+	}
+	
+	private static boolean allowsEasyPasswords(WebClient webClient, String registerUrl) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+		HtmlPage page = webClient.getPage(registerUrl);
+
+		for(String p : Properties.easyPasswords){
+			try{
+    			page.getElementByName("username").setAttribute("value", Properties.testUserName);
+    			page.getElementByName("password1").setAttribute("value", p);
+    			page.getElementByName("password2").setAttribute("value", p);
+    			
+    			HtmlPage newPage = page.getElementById("submit").click();
+    			System.out.println("Allows password: " + p);
+    			return true;
+			}catch(Exception e){
+				e.printStackTrace();
+			}
+		}
+		return false;
 	}
 }

@@ -16,10 +16,17 @@ public class Properties {
 	};
 	
 	// This value is in seconds
-	public static final long timeGap = 2;
+	public static final long timeGap = 0;
 	
 	//public static final String completeness = "random";
 	public static final String completeness = "full";
 	
-	public static final boolean passwordGuess = false;
+	public static final boolean passwordGuess = true;
+	
+	
+	public static final String testUserName = "test@test.com";
+	public static final String[] easyPasswords = new String[]{
+		"password", "god", "admin", "1234", "12345"
+	};
+
 }
