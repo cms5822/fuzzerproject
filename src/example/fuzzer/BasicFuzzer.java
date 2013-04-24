@@ -18,12 +18,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 public class BasicFuzzer {
 
 	// Map of page url to inputs (query params and form fields)
-	private static Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
+	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
 	private static final String currentPage = Properties.bodgeit;
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
@@ -34,6 +33,7 @@ public class BasicFuzzer {
 		//doFormPost(webClient);
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
+		
 		webClient.closeAllWindows();
 
 		for(String s : pagesParams.keySet()){
@@ -47,11 +47,11 @@ public class BasicFuzzer {
 	 * @param webClient
 	 * @throws IOException
 	 * @throws MalformedURLException
-	 * @throws URISyntaxException 
 	 */
 	private static void discoverLinks(WebClient webClient, String webPage) throws IOException, MalformedURLException{
 		HtmlPage page = webClient.getPage(webPage);
 		List<HtmlAnchor> links = page.getAnchors();
+		
 		for (HtmlAnchor link : links) {
 			boolean newPage = false;
 			//System.out.println("Link discovered: " + link.asText() + " @URL=" + link.getHrefAttribute());
@@ -68,8 +68,9 @@ public class BasicFuzzer {
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(param, val);
 				if(newPage){
 					System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
-					discoverForms(webClient, webPage);
 					discoverLinks(webClient, uri.toString());
+					discoverForms(webClient, webPage);
+					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
 					
 				}
 			}
@@ -77,8 +78,9 @@ public class BasicFuzzer {
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(null, null);
 				if(newPage){
 					System.out.println("Adding page " + uri.getPath() + " with query " + null);
-					discoverForms(webClient, webPage);
 					discoverLinks(webClient, uri.toString());
+					discoverForms(webClient, webPage);
+					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
 					
 				}
 			}
@@ -96,8 +98,12 @@ public class BasicFuzzer {
 		for (String secretURL : Properties.secretPages){
 			for(String extension : Properties.pageEndings){
 				try{
-					HtmlPage page = webClient.getPage(webPage + "/" + secretURL + extension);
-					System.out.println("URL-Discovery: Secret URL found " + webPage + secretURL + extension);
+					HtmlPage page = webClient.getPage(webPage+secretURL+extension);
+					System.out.println("URL-Discovery: Secret URL found " + webPage+secretURL+extension);
+					if(!pagesParams.containsKey(new URL(webPage).getPath() + secretURL+extension)){
+						pagesParams.put(new URL(webPage).getPath() + secretURL+extension, 
+								new PageInput(new URL(webPage).getPath() + secretURL+extension));
+					}
 					// Some way of reporting improper data
 				}
 				catch (FailingHttpStatusCodeException e) {

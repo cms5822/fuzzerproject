@@ -7,12 +7,14 @@ import java.util.Map;
 import java.util.Set;
 
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
+import com.gargoylesoftware.htmlunit.util.Cookie;
 
 public class PageInput {
 
 	private final String name;
 	private Map<String, Set<String>> queryInputs = new HashMap<String, Set<String>>();
 	private Set<HtmlInput> formInputs = new HashSet<HtmlInput>();
+	private Set<Cookie> cookies = new HashSet<Cookie>();
 	
 	public PageInput(String page){
 		name = page;
@@ -33,10 +35,17 @@ public class PageInput {
 		this.formInputs.addAll(formInputs);
 	}
 	
+	public void addCookies(Set<Cookie> cookies2) {
+		cookies.addAll(cookies2);
+	}
+	
 	public String toString(){
 		return name + "\n" + 
 				"\tQueries: " + queryInputs.keySet().toString() + "\n" +
 				"\tValues: " + queryInputs.values().toString() + "\n" +
-				"\tForms: " + formInputs.toString();
+				"\tForms: " + formInputs.toString() + "\n" +
+				"\tCookies: " + cookies.toString();
 	}
+
+	
 }
