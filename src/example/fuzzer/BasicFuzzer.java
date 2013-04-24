@@ -24,6 +24,7 @@ public class BasicFuzzer {
 	// Map of page url to inputs (query params and form fields)
 	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
 	private static final String currentPage = Properties.bodgeit;
+	private static final String loginPage = currentPage + "login.jsp";
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		TimedWebClient webClient = new TimedWebClient();
@@ -33,6 +34,7 @@ public class BasicFuzzer {
 		//doFormPost(webClient);
 		discoverPages(webClient, currentPage);
 		//System.out.println("Done finding secret pages");
+		testAuthentication(webClient, loginPage);
 		
 		webClient.closeAllWindows();
 
@@ -151,4 +153,28 @@ public class BasicFuzzer {
 		
 		return htmlInput;
 	}
+
+	// username form field = username
+	// pass form field = password
+	private static void testAuthentication(WebClient webClient, String webPage) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+		try{
+			HtmlPage page = webClient.getPage(webPage);
+			page.getElementByName(Properties.userFormField).setAttribute("value", Properties.username);
+			page.getElementByName(Properties.passwordFormField).setAttribute("value", Properties.password);
+			page.getElementById("submit").click();
+			System.out.println("Authentication sucessful");
+			// Some way of reporting improper data
+		}
+		catch (FailingHttpStatusCodeException e) {
+			//Url does not work
+			System.out.println("Authentication-Test: Failed");
+		} catch (MalformedURLException e) {
+			//Invalid url in file
+			//System.err.println("URL-Discovery: Invalid url in secret page file " + secretURL + extension);
+		} catch (IOException e) {
+			//Error
+			//System.err.println("URL-Discovery: " + e.getMessage());
+		}
+	}
 }
+

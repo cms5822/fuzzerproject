@@ -6,6 +6,7 @@ public class Properties {
 	public static final String bodgeit = urlBase + "bodgeit/";
 	public static final String dvwa = urlBase + "/";
 	public static final String jpetstore = urlBase + "jpetstore/";
+	public static final String loginPageURL = bodgeit + "login.jsp";
 	
 	public static final String[] secretPages = new String[]{
 		"admin", "secret"
@@ -16,10 +17,16 @@ public class Properties {
 	};
 	
 	// This value is in seconds
-	public static final long timeGap = 2;
+	public static final long timeGap = 0;
 	
 	//public static final String completeness = "random";
 	public static final String completeness = "full";
 	
 	public static final boolean passwordGuess = false;
+
+	public static final String username = "username";
+	public static final String userFormField = "username";
+	public static final String password = "password";
+	public static final String passwordFormField = "password";
+
 }
