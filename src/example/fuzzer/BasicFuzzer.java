@@ -29,10 +29,10 @@ public class BasicFuzzer {
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 		discoverLinks(webClient, currentPage);
-		System.out.println("Done finding links");
+		//System.out.println("Done finding links");
 		//doFormPost(webClient);
 		discoverPages(webClient, currentPage);
-		System.out.println("Done finding secret pages");
+		//System.out.println("Done finding secret pages");
 		
 		webClient.closeAllWindows();
 
@@ -67,7 +67,7 @@ public class BasicFuzzer {
 				String val = uri.getQuery().split("=")[1];
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(param, val);
 				if(newPage){
-					System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
+					//System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
 					discoverLinks(webClient, uri.toString());
 					discoverForms(webClient, webPage);
 					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
@@ -77,7 +77,7 @@ public class BasicFuzzer {
 			else{
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(null, null);
 				if(newPage){
-					System.out.println("Adding page " + uri.getPath() + " with query " + null);
+					//System.out.println("Adding page " + uri.getPath() + " with query " + null);
 					discoverLinks(webClient, uri.toString());
 					discoverForms(webClient, webPage);
 					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
@@ -108,13 +108,13 @@ public class BasicFuzzer {
 				}
 				catch (FailingHttpStatusCodeException e) {
 					//Url does not work
-					System.out.println("URL-Discovery: Url not valid " + webPage + secretURL + extension);
+					//System.out.println("URL-Discovery: Url not valid " + webPage + secretURL + extension);
 				} catch (MalformedURLException e) {
 					//Invalid url in file
-					System.err.println("URL-Discovery: Invalid url in secret page file " + secretURL + extension);
+					//System.err.println("URL-Discovery: Invalid url in secret page file " + secretURL + extension);
 				} catch (IOException e) {
 					//Error
-					System.err.println("URL-Discovery: " + e.getMessage());
+					//System.err.println("URL-Discovery: " + e.getMessage());
 				}
 			}
 		}
@@ -141,7 +141,7 @@ public class BasicFuzzer {
 		List<HtmlInput> htmlInput = new ArrayList<HtmlInput>();
 		if(n instanceof HtmlInput){
 			htmlInput.add((HtmlInput) n);
-			System.out.println("Adding form element from page " + page);
+			//System.out.println("Adding form element from page " + page);
 		}
 		if (n.hasChildNodes()){
 			for(DomNode n2 : n.getChildren()){
