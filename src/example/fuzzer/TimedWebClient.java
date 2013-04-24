@@ -15,7 +15,7 @@ public class TimedWebClient extends WebClient{
 	public TimedWebClient() {
 		super();
 		requestAllowed = true;
-		timeGap = Properties.timeGap;
+		timeGap = Properties.timeGap * 1000;
 	}
 
 	// override getPage

@@ -26,7 +26,7 @@ public class BasicFuzzer {
 	private static final String currentPage = Properties.bodgeit;
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
-		WebClient webClient = new WebClient();
+		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 		discoverLinks(webClient, currentPage);
 		System.out.println("Done finding links");

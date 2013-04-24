@@ -15,6 +15,7 @@ public class Properties {
 		".html", ".jsp", ".php", ".asp", "", "/"
 	};
 	
+	// This value is in seconds
 	public static final long timeGap = 2;
 	
 	//public static final String completeness = "random";
