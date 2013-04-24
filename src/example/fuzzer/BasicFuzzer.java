@@ -18,12 +18,11 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
-import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 public class BasicFuzzer {
 
 	// Map of page url to inputs (query params and form fields)
-	private static Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
+	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
 	private static final String currentPage = Properties.bodgeit;
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
@@ -34,7 +33,12 @@ public class BasicFuzzer {
 		//doFormPost(webClient);
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
+		
 		webClient.closeAllWindows();
+
+		for(String s : pagesParams.keySet()){
+			System.out.println(pagesParams.get(s));
+		}
 	}
 
 
@@ -43,11 +47,11 @@ public class BasicFuzzer {
 	 * @param webClient
 	 * @throws IOException
 	 * @throws MalformedURLException
-	 * @throws URISyntaxException 
 	 */
 	private static void discoverLinks(WebClient webClient, String webPage) throws IOException, MalformedURLException{
 		HtmlPage page = webClient.getPage(webPage);
 		List<HtmlAnchor> links = page.getAnchors();
+		
 		for (HtmlAnchor link : links) {
 			boolean newPage = false;
 			//System.out.println("Link discovered: " + link.asText() + " @URL=" + link.getHrefAttribute());
@@ -55,7 +59,7 @@ public class BasicFuzzer {
 			URL uri = new URL(currentPage + link.getHrefAttribute());
 			
 			if (!pagesParams.containsKey(uri.getPath())){
-				pagesParams.put(uri.getPath(), new PageInput());
+				pagesParams.put(uri.getPath(), new PageInput(uri.getPath()));
 			}
 			
 			if(uri.getQuery() != null){
@@ -64,8 +68,9 @@ public class BasicFuzzer {
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(param, val);
 				if(newPage){
 					System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
-					discoverForms(webClient, webPage);
 					discoverLinks(webClient, uri.toString());
+					discoverForms(webClient, webPage);
+					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
 					
 				}
 			}
@@ -73,8 +78,9 @@ public class BasicFuzzer {
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(null, null);
 				if(newPage){
 					System.out.println("Adding page " + uri.getPath() + " with query " + null);
-					discoverForms(webClient, webPage);
 					discoverLinks(webClient, uri.toString());
+					discoverForms(webClient, webPage);
+					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
 					
 				}
 			}
@@ -92,8 +98,12 @@ public class BasicFuzzer {
 		for (String secretURL : Properties.secretPages){
 			for(String extension : Properties.pageEndings){
 				try{
-					HtmlPage page = webClient.getPage(webPage + "/" + secretURL + extension);
-					System.out.println("URL-Discovery: Secret URL found " + webPage + secretURL + extension);
+					HtmlPage page = webClient.getPage(webPage+secretURL+extension);
+					System.out.println("URL-Discovery: Secret URL found " + webPage+secretURL+extension);
+					if(!pagesParams.containsKey(new URL(webPage).getPath() + secretURL+extension)){
+						pagesParams.put(new URL(webPage).getPath() + secretURL+extension, 
+								new PageInput(new URL(webPage).getPath() + secretURL+extension));
+					}
 					// Some way of reporting improper data
 				}
 				catch (FailingHttpStatusCodeException e) {
@@ -113,14 +123,32 @@ public class BasicFuzzer {
 	private static void discoverForms(WebClient webClient, String webPage) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		HtmlPage page = webClient.getPage(webPage);
 		String basePage = new URL(webPage).getPath();
-		List<HtmlForm> forms = page.getForms();
-		for (HtmlForm form : forms) {
-			for (DomNode n : form.getChildren()){
-				if (n instanceof HtmlInput){
-    				pagesParams.get(basePage).addFormInput(n.getNodeName());
-    				System.out.println("Found field " + n.getNodeName() + " on page " + webPage);
-				}
+
+		List<HtmlInput> formInputs = new ArrayList<HtmlInput>();
+		for (HtmlForm form : page.getForms()) {
+			for(DomNode n : form.getChildren()){
+				formInputs.addAll(getInputFields(n, webPage));
 			}
 		}
+		
+		if(!pagesParams.containsKey(basePage)){
+			pagesParams.put(basePage, new PageInput(basePage));
+		}
+		pagesParams.get(basePage).addAllFormInput(formInputs);
+	}
+	
+	private static List<HtmlInput> getInputFields(DomNode n, String page){
+		List<HtmlInput> htmlInput = new ArrayList<HtmlInput>();
+		if(n instanceof HtmlInput){
+			htmlInput.add((HtmlInput) n);
+			System.out.println("Adding form element from page " + page);
+		}
+		if (n.hasChildNodes()){
+			for(DomNode n2 : n.getChildren()){
+				htmlInput.addAll(getInputFields(n2, page));
+			}
+		}
+		
+		return htmlInput;
 	}
 }
