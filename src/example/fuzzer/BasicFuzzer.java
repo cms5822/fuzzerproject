@@ -29,9 +29,11 @@ public class BasicFuzzer {
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		WebClient webClient = new WebClient();
 		webClient.setJavaScriptEnabled(true);
-		discoverLinks(webClient, currentPage);
-		System.out.println("Done finding inputs");
-
+		discoverLinks(webClient, Properties.webPage);
+		System.out.println("Done finding links");
+		//doFormPost(webClient);
+		discoverPages(webClient, Properties.webPage);
+		System.out.println("Done finding secret pages");
 		webClient.closeAllWindows();
 	}
 
@@ -79,6 +81,34 @@ public class BasicFuzzer {
 			
 		}
 	}
+	/**
+	 * This code attempts to guess any secret pages a site may have.
+	 * @param webClient
+	 * @param webPage
+	 * @throws IOException
+	 * @throws MalformedURLException
+	 */
+	private static void discoverPages(WebClient webClient, String webPage) throws IOException, MalformedURLException{
+		for (String secretURL : Properties.secretPages){
+			for(String extension : Properties.pageEndsing){
+				try{
+					HtmlPage page = webClient.getPage(webPage + "/" + secretURL + extension);
+					System.out.println("URL-Discovery: Secret URL found " + webPage + secretURL + extension);
+					// Some way of reporting improper data
+				}
+				catch (FailingHttpStatusCodeException e) {
+					//Url does not work
+					System.out.println("URL-Discovery: Url not valid " + webPage + secretURL + extension);
+				} catch (MalformedURLException e) {
+					//Invalid url in file
+					System.err.println("URL-Discovery: Invalid url in secret page file " + secretURL + extension);
+				} catch (IOException e) {
+					//Error
+					System.err.println("URL-Discovery: " + e.getMessage());
+				}
+			}
+		}
+	}
 
 	private static void discoverForms(WebClient webClient, String webPage) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		HtmlPage page = webClient.getPage(webPage);
@@ -93,24 +123,4 @@ public class BasicFuzzer {
 			}
 		}
 	}
-	
-	
-//	/**
-//	 * This code is for demonstrating techniques for submitting an HTML form. Fuzzer code would need to be
-//	 * more generalized
-//	 * @param webClient
-//	 * @throws FailingHttpStatusCodeException
-//	 * @throws MalformedURLException
-//	 * @throws IOException
-//	 */
-//	private static void doFormPost(WebClient webClient) throws FailingHttpStatusCodeException, MalformedURLException, IOException {
-//		HtmlPage page = webClient.getPage(Properties.webPage + "product.jsp?prodid=26");
-//		List<HtmlForm> forms = page.getForms();
-//		for (HtmlForm form : forms) {
-//			HtmlInput input = form.getInputByName("quantity");
-//			input.setValueAttribute("2");
-//			HtmlSubmitInput submit = (HtmlSubmitInput) form.getFirstByXPath("//input[@id='submit']");
-//			System.out.println(submit.<HtmlPage> click().getWebResponse().getContentAsString());
-//		}
-//	}
 }
