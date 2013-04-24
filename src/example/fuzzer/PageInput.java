@@ -2,13 +2,21 @@ package example.fuzzer;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.gargoylesoftware.htmlunit.html.HtmlInput;
+
 public class PageInput {
 
+	private final String name;
 	private Map<String, Set<String>> queryInputs = new HashMap<String, Set<String>>();
-	private Set<String> formInputs = new HashSet<String>();
+	private Set<HtmlInput> formInputs = new HashSet<HtmlInput>();
+	
+	public PageInput(String page){
+		name = page;
+	}
 	
 	public boolean addQueryInput(String i, String v){
 		if(!queryInputs.containsKey(i)){
@@ -17,7 +25,18 @@ public class PageInput {
 		return queryInputs.get(i).add(v);
 	}
 	
-	public boolean addFormInput(String i){
+	public boolean addFormInput(HtmlInput i){
 		return formInputs.add(i);
+	}
+
+	public void addAllFormInput(List<HtmlInput> formInputs) {
+		this.formInputs.addAll(formInputs);
+	}
+	
+	public String toString(){
+		return name + "\n" + 
+				"\tQueries: " + queryInputs.keySet().toString() + "\n" +
+				"\tValues: " + queryInputs.values().toString() + "\n" +
+				"\tForms: " + formInputs.toString();
 	}
 }

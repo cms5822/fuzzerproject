@@ -35,6 +35,10 @@ public class BasicFuzzer {
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
 		webClient.closeAllWindows();
+
+		for(String s : pagesParams.keySet()){
+			System.out.println(pagesParams.get(s));
+		}
 	}
 
 
@@ -55,7 +59,7 @@ public class BasicFuzzer {
 			URL uri = new URL(currentPage + link.getHrefAttribute());
 			
 			if (!pagesParams.containsKey(uri.getPath())){
-				pagesParams.put(uri.getPath(), new PageInput());
+				pagesParams.put(uri.getPath(), new PageInput(uri.getPath()));
 			}
 			
 			if(uri.getQuery() != null){
@@ -113,14 +117,32 @@ public class BasicFuzzer {
 	private static void discoverForms(WebClient webClient, String webPage) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		HtmlPage page = webClient.getPage(webPage);
 		String basePage = new URL(webPage).getPath();
-		List<HtmlForm> forms = page.getForms();
-		for (HtmlForm form : forms) {
-			for (DomNode n : form.getChildren()){
-				if (n instanceof HtmlInput){
-    				pagesParams.get(basePage).addFormInput(n.getNodeName());
-    				System.out.println("Found field " + n.getNodeName() + " on page " + webPage);
-				}
+
+		List<HtmlInput> formInputs = new ArrayList<HtmlInput>();
+		for (HtmlForm form : page.getForms()) {
+			for(DomNode n : form.getChildren()){
+				formInputs.addAll(getInputFields(n, webPage));
 			}
 		}
+		
+		if(!pagesParams.containsKey(basePage)){
+			pagesParams.put(basePage, new PageInput(basePage));
+		}
+		pagesParams.get(basePage).addAllFormInput(formInputs);
+	}
+	
+	private static List<HtmlInput> getInputFields(DomNode n, String page){
+		List<HtmlInput> htmlInput = new ArrayList<HtmlInput>();
+		if(n instanceof HtmlInput){
+			htmlInput.add((HtmlInput) n);
+			System.out.println("Adding form element from page " + page);
+		}
+		if (n.hasChildNodes()){
+			for(DomNode n2 : n.getChildren()){
+				htmlInput.addAll(getInputFields(n2, page));
+			}
+		}
+		
+		return htmlInput;
 	}
 }
