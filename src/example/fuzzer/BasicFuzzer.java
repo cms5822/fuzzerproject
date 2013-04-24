@@ -2,6 +2,8 @@ package example.fuzzer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -25,7 +27,7 @@ public class BasicFuzzer {
 	
 	private static final String currentPage = properties.currentPage;
 	
-	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException, URISyntaxException{
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 
@@ -33,11 +35,11 @@ public class BasicFuzzer {
 		System.out.println("Done finding links");
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
-		testAuthentication(webClient, properties.loginPage);
-		if(Properties.passwordGuess){
-			boolean easyPasswords = allowsEasyPasswords(webClient, properties.registerPage);
-			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
-		}
+//		testAuthentication(webClient, properties.loginPage);
+//		if(Properties.passwordGuess){
+//			boolean easyPasswords = allowsEasyPasswords(webClient, properties.registerPage);
+//			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
+//		}
 //		
 //		//fuzzQueryInputs(webClient, Properties.urlBase);
 //		//fuzzFormInputs(webClient, Properties.urlBase);
@@ -56,35 +58,43 @@ public class BasicFuzzer {
 	 * @param webClient
 	 * @throws IOException
 	 * @throws MalformedURLException
+	 * @throws URISyntaxException 
 	 */
-	private static void discoverLinks(WebClient webClient, String webPage) throws IOException, MalformedURLException{
-		HtmlPage page = webClient.getPage(webPage);
+	private static void discoverLinks(WebClient webClient, String webPage) throws IOException, MalformedURLException, URISyntaxException{
+		HtmlPage page = null;
+		try{
+			page = webClient.getPage(webPage);
+		} catch(FailingHttpStatusCodeException e){
+			return;
+		}
 		List<HtmlAnchor> links = page.getAnchors();
 		
 		for (HtmlAnchor link : links) {
 			boolean newPage = false;
 			//System.out.println("Link discovered: " + link.asText() + " @URL=" + link.getHrefAttribute());
 			
-			URL uri = null;
+			URI uri = null;
 			// check for absolute or relative path
-			if(link.getHrefAttribute().matches("https?://")){	// hopefully matches http:// or https://
-				// Make sure we aren't leaving the current application
-				if(link.getHrefAttribute().startsWith(currentPage)){
-					uri = new URL(link.getHrefAttribute());
-				}
-				else{
-					continue;
-				}
+			if(link.getHrefAttribute().startsWith("/")){	
+				uri = new URI(properties.urlBase + link.getHrefAttribute()).normalize();
 			}else{
-				uri = new URL(currentPage + link.getHrefAttribute());	
+				uri = new URI(currentPage + link.getHrefAttribute()).normalize();
+			}
+			
+			if(!uri.toString().startsWith(currentPage)){
+				continue;
 			}
 			if (!pagesParams.containsKey(uri.getPath())){
 				pagesParams.put(uri.getPath(), new PageInput(uri.getPath()));
 			}
 			
 			if(uri.getQuery() != null){
-				String param = uri.getQuery().split("=")[0];
-				String val = uri.getQuery().split("=")[1];
+				String[] queryAry = uri.getQuery().split("=");
+				String param = queryAry[0];
+				String val = "";
+				if(queryAry.length >= 2){
+					val = queryAry[1];
+				}
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(param, val);
 				if(newPage){
 					System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);

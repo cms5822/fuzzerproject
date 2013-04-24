@@ -1,7 +1,8 @@
 package example.fuzzer;
 
 public class Properties {
-	PageProperties pp = new BodgeitProperties();
+	//private static final PageProperties pp = new BodgeitProperties();
+	private static final PageProperties pp = new JpetStoreProperties();
 	
 	public final String urlBase;
 	public final String currentPage;

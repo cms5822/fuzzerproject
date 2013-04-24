@@ -8,10 +8,14 @@ public class BodgeitProperties extends PageProperties {
 				"http://127.0.0.1:8080/bodgeit/",
 				"http://127.0.0.1:8080/bodgeit/register.jsp",
 				"http://127.0.0.1:8080/bodgeit/login.jsp",
+				
 				"username",
 				"password",
+				
 				"username",
 				"password",
+				"submit",
+				
 				"username",
 				"password1",
 				"password2"

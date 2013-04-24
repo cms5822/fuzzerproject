@@ -11,6 +11,7 @@ public abstract class PageProperties {
 	
 	public final String loginUsernameFormField;
 	public final String loginPasswordFormField;
+	public final String loginSubmitFormFieldName;
 	
 	public final String registerUsernameFormField;
 	public final String registerPasswordFormField1;
@@ -32,7 +33,7 @@ public abstract class PageProperties {
 	 * @param registerPasswordFormField2
 	 */
 	public PageProperties(String baseUrl, String pageUrl, String registerPage, String loginPage,  
-			String validUsername, String validPassword, String loginUsernameFormField, String loginUsernamePasssword,
+			String validUsername, String validPassword, String loginUsernameFormField, String loginUsernamePasssword, String loginSubmitFormFieldName,
 			String registerUsernameFormField, String registerPasswordFormField1, String registerPasswordFormField2){
 		this.baseUrl = baseUrl;
 		this.pageUrl = pageUrl;
@@ -42,6 +43,7 @@ public abstract class PageProperties {
 		this.validPassword = validPassword;
 		this.loginUsernameFormField = loginUsernameFormField;
 		this.loginPasswordFormField = loginUsernamePasssword;
+		this.loginSubmitFormFieldName = loginSubmitFormFieldName;
 		this.registerUsernameFormField = registerUsernameFormField;
 		this.registerPasswordFormField1 = registerPasswordFormField1;
 		this.registerPasswordFormField2 = registerPasswordFormField2;
