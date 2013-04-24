@@ -27,8 +27,10 @@ public class BasicFuzzer {
 		WebClient webClient = new WebClient();
 		webClient.setJavaScriptEnabled(true);
 		discoverLinks(webClient, Properties.webPage);
-		//doFormPost(webClient);
 		System.out.println("Done finding links");
+		//doFormPost(webClient);
+		discoverPages(webClient, Properties.webPage);
+		System.out.println("Done finding secret pages");
 		webClient.closeAllWindows();
 	}
 
@@ -68,6 +70,34 @@ public class BasicFuzzer {
 				}
 			}
 			
+		}
+	}
+	/**
+	 * This code attempts to guess any secret pages a site may have.
+	 * @param webClient
+	 * @param webPage
+	 * @throws IOException
+	 * @throws MalformedURLException
+	 */
+	private static void discoverPages(WebClient webClient, String webPage) throws IOException, MalformedURLException{
+		for (String secretURL : Properties.secretPages){
+			for(String extension : Properties.pageEndsing){
+				try{
+					HtmlPage page = webClient.getPage(webPage + "/" + secretURL + extension);
+					System.out.println("URL-Discovery: Secret URL found " + webPage + secretURL + extension);
+					// Some way of reporting improper data
+				}
+				catch (FailingHttpStatusCodeException e) {
+					//Url does not work
+					System.out.println("URL-Discovery: Url not valid " + webPage + secretURL + extension);
+				} catch (MalformedURLException e) {
+					//Invalid url in file
+					System.err.println("URL-Discovery: Invalid url in secret page file " + secretURL + extension);
+				} catch (IOException e) {
+					//Error
+					System.err.println("URL-Discovery: " + e.getMessage());
+				}
+			}
 		}
 	}
 
