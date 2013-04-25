@@ -37,6 +37,7 @@ public class BasicFuzzer {
 		testAuthentication(webClient, loginPage);
 		if(Properties.passwordGuess){
 			boolean easyPasswords = allowsEasyPasswords(webClient, registerPage);
+			System.out.println("Passwords are " + (easyPasswords ? "" : "not") + " easy to guess.");
 		}
 		
 		webClient.closeAllWindows();
