@@ -37,7 +37,7 @@ public class BasicFuzzer {
 		testAuthentication(webClient, loginPage);
 		if(Properties.passwordGuess){
 			boolean easyPasswords = allowsEasyPasswords(webClient, registerPage);
-			System.out.println("Passwords are " + (easyPasswords ? "" : "not") + " easy to guess.");
+			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
 		}
 		
 		webClient.closeAllWindows();
@@ -186,15 +186,14 @@ public class BasicFuzzer {
 
 		for(String p : Properties.easyPasswords){
 			try{
-    			page.getElementByName("username").setAttribute("value", Properties.testUserName);
-    			page.getElementByName("password1").setAttribute("value", p);
-    			page.getElementByName("password2").setAttribute("value", p);
+    			page.getElementByName(Properties.userFormField).setAttribute("value", Properties.username);
+    			page.getElementByName(Properties.registerPasswordFormField).setAttribute("value", p);
+    			page.getElementByName(Properties.confirmPasswordFormField).setAttribute("value", p);
     			
     			HtmlPage newPage = page.getElementById("submit").click();
-    			System.out.println("Allows password: " + p);
     			return true;
 			}catch(Exception e){
-				e.printStackTrace();
+				//e.printStackTrace();
 			}
 		}
 		return false;

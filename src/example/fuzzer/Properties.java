@@ -27,6 +27,9 @@ public class Properties {
 	public static final String userFormField = "username";
 	public static final String password = "password";
 	public static final String passwordFormField = "password";
+	
+	public static final String registerPasswordFormField = "password1";
+	public static final String confirmPasswordFormField = "password2";
 
 	public static final String testUserName = "test@test.com";
 	public static final String[] easyPasswords = new String[]{
