@@ -2,14 +2,11 @@ package example.fuzzer;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
@@ -18,6 +15,7 @@ import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
+import com.gargoylesoftware.htmlunit.html.HtmlSubmitInput;
 
 public class BasicFuzzer {
 
@@ -39,6 +37,9 @@ public class BasicFuzzer {
 			boolean easyPasswords = allowsEasyPasswords(webClient, registerPage);
 			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
 		}
+		
+		fuzzQueryInputs(webClient, Properties.urlBase);
+		//fuzzFormInputs(webClient, Properties.urlBase);
 		
 		webClient.closeAllWindows();
 
@@ -196,6 +197,74 @@ public class BasicFuzzer {
 				//e.printStackTrace();
 			}
 		}
+		return false;
+	}
+	
+	private static void fuzzQueryInputs(WebClient webClient, String baseUrl) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+		for (String path : pagesParams.keySet()){
+			String url = baseUrl + path;
+			PageInput pi = pagesParams.get(path);
+			if (pi.getQueryParams().isEmpty()) continue;
+			
+			String[] paramsArray = pi.getQueryParams().toArray(new String[pi.getQueryParams().size()]);
+			
+			
+			for(String q : paramsArray){
+				for(String i : Properties.fuzzInputs){
+					String newUrl = url + "?" + i;
+					try{
+						HtmlPage page = webClient.getPage(newUrl);
+						containsSensativeData(page);
+					} catch(Exception e){
+						System.out.println("Failed to get page " + newUrl);
+					}
+				}
+				
+			}
+			
+			
+			
+		}
+	}
+	
+	private static void fuzzFormInputs(WebClient webClient, String baseUrl) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
+		for (String path : pagesParams.keySet()){
+			String url = baseUrl + path;
+			HtmlPage page = webClient.getPage(url);
+			PageInput pi = pagesParams.get(path);
+			if (pi.getFormInputIds().isEmpty()) continue;
+			for(String fi : Properties.fuzzInputs){
+				HtmlSubmitInput submitInput = null;
+    			for(String id : pi.getFormInputIds()){
+    				HtmlInput curInput = (HtmlInput) page.getElementById(id);
+					if (curInput != null && submitInput == null && curInput.getTypeAttribute().equalsIgnoreCase("submit")){
+						submitInput = (HtmlSubmitInput) curInput;
+						System.out.println("Submit set on page "+ path);
+					}
+					else if (curInput != null){
+						curInput.setAttribute("value", fi);
+					}else{
+						System.out.println("Reached random else statement");
+					}
+    			}
+				if(submitInput != null){
+					try{
+						HtmlPage pageResult = submitInput.click();
+						containsSensativeData(pageResult);
+						System.out.println("Form submited successfully");
+					} catch(Exception e){
+						System.out.println("Form submit exception: " + e.getMessage());
+					}
+				}else{
+					System.out.println("No submit on page " + path);
+				}
+			}
+			
+		}
+	}
+	
+	private static boolean containsSensativeData(HtmlPage page){
+		// Todo: check junk
 		return false;
 	}
 }

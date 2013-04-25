@@ -14,6 +14,8 @@ public class PageInput {
 	private final String name;
 	private Map<String, Set<String>> queryInputs = new HashMap<String, Set<String>>();
 	private Set<HtmlInput> formInputs = new HashSet<HtmlInput>();
+	private Set<String> formInputIds = new HashSet<String>();
+	
 	private Set<Cookie> cookies = new HashSet<Cookie>();
 	
 	public PageInput(String page){
@@ -28,11 +30,15 @@ public class PageInput {
 	}
 	
 	public boolean addFormInput(HtmlInput i){
+		formInputIds.add(i.getId());
 		return formInputs.add(i);
 	}
 
-	public void addAllFormInput(List<HtmlInput> formInputs) {
-		this.formInputs.addAll(formInputs);
+	public boolean addAllFormInput(List<HtmlInput> formInputs) {
+		for (HtmlInput hi : formInputs){
+			addFormInput(hi);
+		}
+		return this.formInputs.addAll(formInputs);
 	}
 	
 	public void addCookies(Set<Cookie> cookies2) {
@@ -45,6 +51,15 @@ public class PageInput {
 				"\tValues: " + queryInputs.values().toString() + "\n" +
 				"\tForms: " + formInputs.toString() + "\n" +
 				"\tCookies: " + cookies.toString();
+	}
+	
+	
+	public Set<String> getQueryParams(){
+		return queryInputs.keySet();
+	}
+	
+	public Set<String> getFormInputIds(){
+		return formInputIds;
 	}
 
 	

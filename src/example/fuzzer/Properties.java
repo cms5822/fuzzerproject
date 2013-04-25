@@ -2,10 +2,10 @@ package example.fuzzer;
 
 public class Properties {
 	//public static final String webPage = "http://192.168.1.131:8080/bodgeit/";
-	public static final String urlBase = "http://129.21.12.55:8080/";
-	public static final String bodgeit = urlBase + "bodgeit/";
+	public static final String urlBase = "http://129.21.12.55:8080";
+	public static final String bodgeit = urlBase + "/bodgeit/";
 	public static final String dvwa = urlBase + "/";
-	public static final String jpetstore = urlBase + "jpetstore/";
+	public static final String jpetstore = urlBase + "/jpetstore/";
 	
 	public static final String[] secretPages = new String[]{
 		"admin", "secret"
@@ -34,5 +34,12 @@ public class Properties {
 	public static final String testUserName = "test@test.com";
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
+	};
+	
+	public static final String[] fuzzInputs = new String[]{
+		"-1", "0", "1", "2", "test", "admin", 
+		Integer.toString(Integer.MAX_VALUE), Integer.toString(Integer.MIN_VALUE),
+		Long.toString(Long.MAX_VALUE), Long.toString(Long.MIN_VALUE),
+		"<script>alert(\"XXS\")</script>"
 	};
 }
