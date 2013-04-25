@@ -21,12 +21,15 @@ public class Properties {
 	//public static final String completeness = "random";
 	public static final String completeness = "full";
 	
-	public static final boolean passwordGuess = true;
-	
-	
+	public static final boolean passwordGuess = false;
+
+	public static final String username = "username";
+	public static final String userFormField = "username";
+	public static final String password = "password";
+	public static final String passwordFormField = "password";
+
 	public static final String testUserName = "test@test.com";
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
 	};
-
 }
