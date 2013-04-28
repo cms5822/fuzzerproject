@@ -2,11 +2,17 @@ package example.fuzzer;
 
 public class Properties {
 	//public static final String webPage = "http://192.168.1.131:8080/bodgeit/";
-	public static final String urlBase = "http://129.21.12.55:8080";
+	public static final String urlBase = "http://129.21.12.221:8080";
+	//public static final String urlBase = "http://129.21.12.221";
+
 	public static final String bodgeit = urlBase + "/bodgeit/";
 	public static final String dvwa = urlBase + "/";
 	public static final String jpetstore = urlBase + "/jpetstore/";
-	
+
+	public static final String currentPage = bodgeit;
+	public static final String registerPage = currentPage + "register.jsp";
+	public static final String loginPage = currentPage + "login.jsp";
+
 	public static final String[] secretPages = new String[]{
 		"admin", "secret"
 	};

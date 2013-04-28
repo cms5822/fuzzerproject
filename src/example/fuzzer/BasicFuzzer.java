@@ -21,9 +21,7 @@ public class BasicFuzzer {
 
 	// Map of page url to inputs (query params and form fields)
 	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
-	private static final String currentPage = Properties.bodgeit;
-	private static final String registerPage = currentPage + "register.jsp";
-	private static final String loginPage = currentPage + "login.jsp";
+	private static final String currentPage = Properties.currentPage;
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		TimedWebClient webClient = new TimedWebClient();
@@ -32,13 +30,13 @@ public class BasicFuzzer {
 		System.out.println("Done finding links");
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
-		testAuthentication(webClient, loginPage);
+		testAuthentication(webClient, Properties.loginPage);
 		if(Properties.passwordGuess){
-			boolean easyPasswords = allowsEasyPasswords(webClient, registerPage);
+			boolean easyPasswords = allowsEasyPasswords(webClient, Properties.registerPage);
 			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
 		}
 		
-		fuzzQueryInputs(webClient, Properties.urlBase);
+		//fuzzQueryInputs(webClient, Properties.urlBase);
 		//fuzzFormInputs(webClient, Properties.urlBase);
 		
 		webClient.closeAllWindows();
