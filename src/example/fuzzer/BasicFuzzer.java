@@ -14,6 +14,7 @@ import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomNode;
 import com.gargoylesoftware.htmlunit.html.HtmlAnchor;
+import com.gargoylesoftware.htmlunit.html.HtmlElement;
 import com.gargoylesoftware.htmlunit.html.HtmlForm;
 import com.gargoylesoftware.htmlunit.html.HtmlInput;
 import com.gargoylesoftware.htmlunit.html.HtmlPage;
@@ -31,6 +32,8 @@ public class BasicFuzzer {
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 
+		testAuthentication(webClient, properties.loginPage);
+		
 		discoverLinks(webClient, currentPage);
 		System.out.println("Done finding links");
 		discoverPages(webClient, currentPage);
@@ -75,12 +78,15 @@ public class BasicFuzzer {
 			
 			URI uri = null;
 			// check for absolute or relative path
-			if(link.getHrefAttribute().startsWith("/")){	
-				uri = new URI(properties.urlBase + link.getHrefAttribute()).normalize();
-			}else{
-				uri = new URI(currentPage + link.getHrefAttribute()).normalize();
+			try{
+				if(link.getHrefAttribute().startsWith("/")){	
+					uri = new URI(properties.urlBase + link.getHrefAttribute()).normalize();
+				}else{
+					uri = new URI(currentPage + link.getHrefAttribute()).normalize();
+				}
+			}catch(Exception e){
+				continue;
 			}
-			
 			if(!uri.toString().startsWith(currentPage)){
 				continue;
 			}
@@ -189,7 +195,13 @@ public class BasicFuzzer {
 			HtmlPage page = webClient.getPage(webPage);
 			page.getElementByName(properties.loginUserFormField).setAttribute("value", properties.username);
 			page.getElementByName(properties.loginPasswordFormField).setAttribute("value", properties.password);
-			page.getElementById("submit").click();
+			HtmlElement submit = null;
+			submit = page.getElementByName(properties.loginSubmitFormField);
+			if(submit == null){
+				submit = page.getElementById(properties.loginSubmitFormField);
+			}
+			
+			submit.click();
 			System.out.println("Authentication sucessful");
 			// Some way of reporting improper data
 		}

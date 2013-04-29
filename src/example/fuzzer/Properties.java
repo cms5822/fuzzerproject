@@ -2,7 +2,8 @@ package example.fuzzer;
 
 public class Properties {
 	//private static final PageProperties pp = new BodgeitProperties();
-	private static final PageProperties pp = new JpetStoreProperties();
+	//private static final PageProperties pp = new JpetStoreProperties();
+	private static final PageProperties pp = new DvwaProperties();
 	
 	public final String urlBase;
 	public final String currentPage;
@@ -29,6 +30,7 @@ public class Properties {
 	public final String password;
 	public final String loginUserFormField;
 	public final String loginPasswordFormField;
+	public final String loginSubmitFormField;
 	public final String registerUserFormField;
 	public final String registerPasswordFormField;
 	public final String confirmPasswordFormField;
@@ -53,6 +55,7 @@ public class Properties {
 		password = pp.validPassword;
 		loginUserFormField = pp.loginUsernameFormField;
 		loginPasswordFormField = pp.loginPasswordFormField;
+		loginSubmitFormField = pp.loginSubmitFormFieldName;
 		registerUserFormField = pp.registerUsernameFormField;
 		registerPasswordFormField = pp.registerPasswordFormField1;
 		confirmPasswordFormField = pp.registerPasswordFormField2;
