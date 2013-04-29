@@ -1,0 +1,100 @@
+/dvwa/http:/www.zend.com/
+	Queries: [null]
+	Values: [[null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/csrf/
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlPasswordInput[<input type="password" autocomplete="off" name="password_new">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_current">], HtmlSubmitInput[<input type="submit" value="Change" name="Change">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_new">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_conf">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_current">], HtmlSubmitInput[<input type="submit" value="Change" name="Change">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_new">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_conf">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_current">], HtmlSubmitInput[<input type="submit" value="Change" name="Change">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password_conf">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/sqli/
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlTextInput[<input type="text" name="id">], HtmlSubmitInput[<input type="submit" name="Submit" value="Submit">], HtmlTextInput[<input type="text" name="id">], HtmlSubmitInput[<input type="submit" name="Submit" value="Submit">], HtmlTextInput[<input type="text" name="id">], HtmlSubmitInput[<input type="submit" name="Submit" value="Submit">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/sqli_blind/
+	Queries: [null]
+	Values: [[null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/http:/www.php.net/
+	Queries: [null]
+	Values: [[null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/fi/
+	Queries: [page]
+	Values: [[include.php]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/about.php
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/http:/hiderefer.com/
+	Queries: [http://www.apachefriends.org/en/xampp.html, http://www.gnu.org/licenses/., http://www.dvwa.co.uk, http://www.acunetix.com/websitesecurity/upload-forms-threat.htm, http://en.wikipedia.org/wiki/Cross-site_request_forgery, http://www.ss64.com/bash/, http://www.designnewcastle.co.uk/, http://php-ids.org/, http://www.scribd.com/doc/2530476/Php-Endangers-Remote-Code-Execution, http://en.wikipedia.org/wiki/Cross-site_scripting, http://www.owasp.org/index.php/Testing_for_Brute_Force_(OWASP-AT-004), http://www.cgisecurity.com/xss-faq.html, http://www.owasp.org/index.php/Cross-Site_Request_Forgery, http://www.unixwiz.net/techtips/sql-injection.html, http://www.youtube.com/watch?v, http://www.dvwa.co.uk/forum, http://www.owasp.org/index.php/Top_10_2007-A3, http://www.sillychicken.co.nz/Security/how-to-brute-force-http-forms-in-windows.html, http://dvwa.svn.sourceforge.net/svnroot/dvwa, http://www.securiteam.com/securityreviews/5DP0N1P76E.html, http://www.randomstorm.com/, http://www.dvwa.co.uk/forum/viewtopic.php?f, http://www.cgisecurity.com/csrf-faq.html, http://en.wikipedia.org/wiki/SQL_injection, http://sourceforge.net/projects/dvwa/, http://ha.ckers.org/xss.html, http://tedi.heriyanto.net/, http://www.creativenucleus.com/, http://www.youreadmyblog.info/, http://www.ethicalhack3r.co.uk/, http://127.0.0.1/dvwa/index.php, http://blogs.securiteam.com/index.php/archives/1268, http://www.dvwa.co.uk/, http://www.securityfocus.com/infocus/1192, http://www.tmacuk.co.uk/, http://www.linux-ninja.com/, http://en.wikipedia.org/wiki/Remote_File_Inclusion, http://www.owasp.org/index.php/Unrestricted_File_Upload, http://www.ss64.com/nt/]
+	Values: [[], [], [], [], [], [], [], [], [], [], [], [], [], [], [GzIj07jt8rM], [], [], [], [], [], [], [5], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], [], []]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/exec/
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlTextInput[<input type="text" name="ip" size="30">], HtmlSubmitInput[<input type="submit" value="submit" name="submit">], HtmlTextInput[<input type="text" name="ip" size="30">], HtmlSubmitInput[<input type="submit" value="submit" name="submit">], HtmlSubmitInput[<input type="submit" value="submit" name="submit">], HtmlTextInput[<input type="text" name="ip" size="30">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/xss_r/
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlTextInput[<input type="text" name="name">], HtmlSubmitInput[<input type="submit" value="Submit">], HtmlTextInput[<input type="text" name="name">], HtmlSubmitInput[<input type="submit" value="Submit">], HtmlTextInput[<input type="text" name="name">], HtmlSubmitInput[<input type="submit" value="Submit">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/xss_s/
+	Queries: [null]
+	Values: [[null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/logout.php
+	Queries: [null]
+	Values: [[null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/instructions.php
+	Queries: [null, doc]
+	Values: [[null], [PHPIDS-license]]
+	Forms: [HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/security.php
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlSubmitInput[<input type="submit" value="Submit" name="seclev_submit">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/
+	Queries: [null, doc, phpids]
+	Values: [[null], [PHPIDS-license, changelog, readme, copying], [on]]
+	Forms: [HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlPasswordInput[<input type="password" class="loginInput" autocomplete="off" size="20" name="password">], HtmlTextInput[<input type="text" class="loginInput" size="20" name="username">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/brute/
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlTextInput[<input type="text" name="username">], HtmlTextInput[<input type="text" name="username">], HtmlTextInput[<input type="text" name="username">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password">], HtmlPasswordInput[<input type="password" autocomplete="off" name="password">], HtmlSubmitInput[<input type="submit" value="Login" name="Login">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/setup.php
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">], HtmlSubmitInput[<input name="create_db" type="submit" value="Create / Reset Database">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/vulnerabilities/upload/
+	Queries: [null]
+	Values: [[null]]
+	Forms: [HtmlFileInput[<input name="uploaded" type="file" value="">], HtmlFileInput[<input name="uploaded" type="file" value="">], HtmlHiddenInput[<input type="hidden" name="MAX_FILE_SIZE" value="100000">], HtmlSubmitInput[<input type="submit" name="Upload" value="Upload">], HtmlHiddenInput[<input type="hidden" name="MAX_FILE_SIZE" value="100000">], HtmlHiddenInput[<input type="hidden" name="MAX_FILE_SIZE" value="100000">], HtmlFileInput[<input name="uploaded" type="file" value="">], HtmlSubmitInput[<input type="submit" name="Upload" value="Upload">], HtmlSubmitInput[<input type="submit" name="Upload" value="Upload">]]
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/phpinfo.php
+	Queries: [, null]
+	Values: [[PHPB8B5F2A0-3C92-11d3-A3A9-4C7B08C10000], [null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]
+/dvwa/ids_log.php
+	Queries: [null]
+	Values: [[null]]
+	Forms: []
+	Cookies: [security=high;domain=127.0.0.1;path=/dvwa, PHPSESSID=ujjlceaeuh1nf0616r8p3n56m2;domain=127.0.0.1;path=/]

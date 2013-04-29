@@ -18,7 +18,9 @@ public class BodgeitProperties extends PageProperties {
 				
 				"username",
 				"password1",
-				"password2"
+				"password2",
+				
+				false
 		);
 	}
 }

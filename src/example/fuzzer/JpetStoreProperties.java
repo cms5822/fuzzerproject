@@ -17,7 +17,9 @@ public class JpetStoreProperties extends PageProperties {
 				
 				"username",
 				"password",
-				"repeatedPassword"
+				"repeatedPassword",
+				
+				false
 		);
 	}
 }

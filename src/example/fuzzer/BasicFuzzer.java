@@ -32,7 +32,9 @@ public class BasicFuzzer {
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 
-		testAuthentication(webClient, properties.loginPage);
+		if(properties.authBeforeFuzz){
+			testAuthentication(webClient, properties.loginPage);
+		}
 		
 		discoverLinks(webClient, currentPage);
 		System.out.println("Done finding links");

@@ -16,6 +16,7 @@ public abstract class PageProperties {
 	public final String registerUsernameFormField;
 	public final String registerPasswordFormField1;
 	public final String registerPasswordFormField2; 
+	public final boolean authBeforeFuzz;
 	
 
 	/**
@@ -34,7 +35,8 @@ public abstract class PageProperties {
 	 */
 	public PageProperties(String baseUrl, String pageUrl, String registerPage, String loginPage,  
 			String validUsername, String validPassword, String loginUsernameFormField, String loginUsernamePasssword, String loginSubmitFormFieldName,
-			String registerUsernameFormField, String registerPasswordFormField1, String registerPasswordFormField2){
+			String registerUsernameFormField, String registerPasswordFormField1, String registerPasswordFormField2,
+			boolean authBeforeFuzz){
 		this.baseUrl = baseUrl;
 		this.pageUrl = pageUrl;
 		this.registerPage = registerPage;
@@ -47,5 +49,6 @@ public abstract class PageProperties {
 		this.registerUsernameFormField = registerUsernameFormField;
 		this.registerPasswordFormField1 = registerPasswordFormField1;
 		this.registerPasswordFormField2 = registerPasswordFormField2;
+		this.authBeforeFuzz = authBeforeFuzz;
 	}
 }
