@@ -22,7 +22,8 @@ public class DvwaProperties extends PageProperties {
 			"registerPasswordFormField1", 
 			"registerPasswordFormField2",
 			
-			true
+			true,
+			false
 		);
 	}
 

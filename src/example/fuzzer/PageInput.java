@@ -62,5 +62,7 @@ public class PageInput {
 		return formInputIds;
 	}
 
-	
+	public Set<HtmlInput> getFormInputs(){
+		return formInputs;
+	}
 }

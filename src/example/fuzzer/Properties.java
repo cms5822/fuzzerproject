@@ -43,6 +43,7 @@ public class Properties {
 	public final boolean authBeforeFuzz;
 	public final String sensitiveDataFile;
 	public final String sanitizeDataFile; 
+	public final boolean hasRegsiterPage;
 	
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
@@ -71,6 +72,7 @@ public class Properties {
 		authBeforeFuzz = pp.authBeforeFuzz;
 		sensitiveDataFile = "sensitivedata.txt";
 		sanitizeDataFile = "sanitizeddata.txt";
+		hasRegsiterPage = pp.hasRegisterPage;
 	}
 	
 	public List<String> getSanitizedData() {
@@ -98,6 +100,6 @@ public class Properties {
 		} catch (FileNotFoundException e) {
 			System.err.println("FuzzerProperties: " + e.getMessage());
 		}
-		return data;
+		return data;		
 	}
 }

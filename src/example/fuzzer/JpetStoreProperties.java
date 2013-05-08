@@ -5,8 +5,8 @@ public class JpetStoreProperties extends PageProperties {
 		super(
 				"http://129.21.12.221:8080",
 				"http://129.21.12.221:8080/jpetstore/",
-				"http://129.21.12.221:8080/jpetstore/actions/Acount.action?newAccountForm=",
-				"http://129.21.12.221:8080/jpetstore/actions/Acount.action",
+				"http://129.21.12.221:8080/jpetstore/actions/Account.action?newAccountForm=",
+				"http://129.21.12.221:8080/jpetstore/actions/Account.action",
 				
 				"j2ee",
 				"j2ee",
@@ -19,7 +19,8 @@ public class JpetStoreProperties extends PageProperties {
 				"password",
 				"repeatedPassword",
 				
-				false
+				false,
+				true
 		);
 	}
 }
