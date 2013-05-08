@@ -32,29 +32,36 @@ public class BasicFuzzer {
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
 
+		boolean authenticated = false;
 		if(properties.authBeforeFuzz){
 			testAuthentication(webClient, properties.loginPage);
+			authenticated = true;
 		}
 		
 		discoverLinks(webClient, currentPage);
 		System.out.println("Done finding links");
 		discoverPages(webClient, currentPage);
 		System.out.println("Done finding secret pages");
-//		testAuthentication(webClient, properties.loginPage);
-//		if(Properties.passwordGuess){
-//			boolean easyPasswords = allowsEasyPasswords(webClient, properties.registerPage);
-//			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
-//		}
-//		
-//		//fuzzQueryInputs(webClient, Properties.urlBase);
-//		//fuzzFormInputs(webClient, Properties.urlBase);
-//		
-		webClient.closeAllWindows();
-
-		System.out.println("Results:");
+		if(!authenticated){
+			testAuthentication(webClient, properties.loginPage);
+		}
+		if(properties.hasRegsiterPage && properties.passwordGuess){
+			boolean easyPasswords = allowsEasyPasswords(webClient, properties.registerPage);
+			System.out.println("Easy to guess passowrds are" + (easyPasswords ? " " : " not ") + "allowed.");
+		}
+		
+		System.out.println("Attack Surface:");
 		for(String s : pagesParams.keySet()){
 			System.out.println(pagesParams.get(s));
 		}
+		
+		//fuzzQueryInputs(webClient, Properties.urlBase);
+		System.out.println("Fuzzing form inputs");
+		fuzzFormInputs(webClient, properties.urlBase);
+		
+		webClient.closeAllWindows();
+		System.out.println("Done");
+		
 	}
 
 
@@ -267,37 +274,45 @@ public class BasicFuzzer {
 	private static void fuzzFormInputs(WebClient webClient, String baseUrl) throws FailingHttpStatusCodeException, MalformedURLException, IOException{
 		for (String path : pagesParams.keySet()){
 			String url = baseUrl + path;
-			HtmlPage page = webClient.getPage(url);
+			HtmlPage page = null;
+			try{
+				page = webClient.getPage(url);
+			} catch(Exception e){
+				System.out.println("Url: " + url + " could not be opened");
+			}
+			if(page == null){ 
+				continue; 
+			}
 			PageInput pi = pagesParams.get(path);
-			if (pi.getFormInputIds().isEmpty()) continue;
-			for(String fi : Properties.fuzzInputs){
-				HtmlSubmitInput submitInput = null;
-    			for(String id : pi.getFormInputIds()){
-    				HtmlInput curInput = (HtmlInput) page.getElementById(id);
-					if (curInput != null && submitInput == null && curInput.getTypeAttribute().equalsIgnoreCase("submit")){
-						submitInput = (HtmlSubmitInput) curInput;
-						System.out.println("Submit set on page "+ path);
+			if (pi.getFormInputs().isEmpty()) {
+				continue;
+			}
+			for(String fi : properties.fuzzInputs){
+				List<HtmlInput> lhi = new ArrayList<HtmlInput>();
+				for(HtmlForm hf : page.getForms()){
+					lhi.addAll(getInputFields(hf, url));
+					HtmlSubmitInput hsi =  getSubmitElement(hf);
+					if(hsi != null){
+						HtmlPage submitResult = hsi.click();
 					}
-					else if (curInput != null){
-						curInput.setAttribute("value", fi);
-					}else{
-						System.out.println("Reached random else statement");
-					}
-    			}
-				if(submitInput != null){
-					try{
-						HtmlPage pageResult = submitInput.click();
-						containsSensativeData(pageResult);
-						System.out.println("Form submited successfully");
-					} catch(Exception e){
-						System.out.println("Form submit exception: " + e.getMessage());
-					}
-				}else{
-					System.out.println("No submit on page " + path);
 				}
 			}
 			
 		}
+	}
+	
+	private static HtmlSubmitInput getSubmitElement(DomNode n){
+		HtmlSubmitInput submit = null;
+		
+		if(n instanceof HtmlSubmitInput){
+			submit = (HtmlSubmitInput) n;
+		}else{
+			for (DomNode dn : n.getChildren()){
+				return getSubmitElement(dn);
+			}
+		}
+		
+		return submit;
 	}
 	
 	private static boolean containsSensativeData(HtmlPage page){

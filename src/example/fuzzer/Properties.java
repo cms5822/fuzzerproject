@@ -35,7 +35,7 @@ public class Properties {
 	public final String registerPasswordFormField;
 	public final String confirmPasswordFormField;
 	public final boolean authBeforeFuzz;
-	
+	public final boolean hasRegsiterPage;
 	
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
@@ -62,5 +62,6 @@ public class Properties {
 		registerPasswordFormField = pp.registerPasswordFormField1;
 		confirmPasswordFormField = pp.registerPasswordFormField2;
 		authBeforeFuzz = pp.authBeforeFuzz;
+		hasRegsiterPage = pp.hasRegisterPage;
 	}
 }
