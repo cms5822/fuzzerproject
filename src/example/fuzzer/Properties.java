@@ -42,19 +42,16 @@ public class Properties {
 	public final String confirmPasswordFormField;
 	public final boolean authBeforeFuzz;
 	public final String sensitiveDataFile;
-	public final String sanitizeDataFile; 
+	public final String sanitizeDataFile;
+	public final String externalFuzzInputs;
 	public final boolean hasRegsiterPage;
 	
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
 	};
 	
-	public static final String[] fuzzInputs = new String[]{
-		"-1", "0", "1", "2", "test", "admin", 
-		Integer.toString(Integer.MAX_VALUE), Integer.toString(Integer.MIN_VALUE),
-		Long.toString(Long.MAX_VALUE), Long.toString(Long.MIN_VALUE),
-		"<script>alert(\"XXS\")</script>"
-	};
+	public static final List<String> fuzzInputs = new ArrayList<String>();
+
 	
 	public Properties(){
 		urlBase = pp.baseUrl;
@@ -72,7 +69,19 @@ public class Properties {
 		authBeforeFuzz = pp.authBeforeFuzz;
 		sensitiveDataFile = "sensitivedata.txt";
 		sanitizeDataFile = "sanitizeddata.txt";
-		hasRegsiterPage = pp.hasRegisterPage;
+		externalFuzzInputs = "externalfuzzinputs.txt";
+		hasRegsiterPage = pp.hasRegisterPage;		
+	}
+	
+	public void appenExternalFuzzInputs(){
+		try {
+			Scanner input = new Scanner(new File(externalFuzzInputs));
+			while (input.hasNext()) {
+				fuzzInputs.add(input.nextLine());
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Properties: " + e.getMessage());
+		}
 	}
 	
 	public List<String> getSanitizedData() {
@@ -84,7 +93,7 @@ public class Properties {
 				data.add(input.nextLine());
 			}
 		} catch (FileNotFoundException e) {
-			System.err.println("FuzzerProperties: " + e.getMessage());
+			System.err.println("Properties: " + e.getMessage());
 		}
 		return data;
 	}
@@ -98,7 +107,7 @@ public class Properties {
 				data.add(input.nextLine());
 			}
 		} catch (FileNotFoundException e) {
-			System.err.println("FuzzerProperties: " + e.getMessage());
+			System.err.println("Properties: " + e.getMessage());
 		}
 		return data;		
 	}
