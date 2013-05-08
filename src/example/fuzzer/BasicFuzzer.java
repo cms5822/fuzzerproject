@@ -287,17 +287,29 @@ public class BasicFuzzer {
 			if (pi.getFormInputs().isEmpty()) {
 				continue;
 			}
-			for(String fi : properties.fuzzInputs){
-				List<HtmlInput> lhi = new ArrayList<HtmlInput>();
-				for(HtmlForm hf : page.getForms()){
-					lhi.addAll(getInputFields(hf, url));
-					HtmlSubmitInput hsi =  getSubmitElement(hf);
-					if(hsi != null){
-						HtmlPage submitResult = hsi.click();
-						containsSanitizedData(submitResult);
-						containsSensitiveData(submitResult);
-					}
+			
+			List<HtmlInput> lhi = new ArrayList<HtmlInput>();
+			for(HtmlForm hf : page.getForms()){
+				lhi.addAll(getInputFields(hf, url));
+				HtmlSubmitInput hsi =  getSubmitElement(hf);
+				if(hsi == null){
+					continue;
 				}
+				
+				for(String data : properties.getSanitizedData()){
+					for(HtmlInput hi : lhi){
+						hi.setAttribute("value", data);
+					}
+					containsSanitizedData((HtmlPage)hsi.click());
+				}
+				
+				for(String data : properties.fuzzInputs){
+					for(HtmlInput hi : lhi){
+						hi.setAttribute("value", data);
+					}
+					containsSensitiveData((HtmlPage)hsi.click());
+				}
+				
 			}
 			
 		}
