@@ -1,9 +1,15 @@
 package example.fuzzer;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
 public class Properties {
 	//private static final PageProperties pp = new BodgeitProperties();
 	//private static final PageProperties pp = new JpetStoreProperties();
-	private static final PageProperties pp = new DvwaProperties();
+	private static final PageProperties pp = new JpetStoreProperties();
 	
 	public final String urlBase;
 	public final String currentPage;
@@ -35,7 +41,8 @@ public class Properties {
 	public final String registerPasswordFormField;
 	public final String confirmPasswordFormField;
 	public final boolean authBeforeFuzz;
-	
+	public final String sensitiveDataFile;
+	public final String sanitizeDataFile; 
 	
 	public static final String[] easyPasswords = new String[]{
 		"password", "god", "admin", "1234", "12345"
@@ -62,5 +69,35 @@ public class Properties {
 		registerPasswordFormField = pp.registerPasswordFormField1;
 		confirmPasswordFormField = pp.registerPasswordFormField2;
 		authBeforeFuzz = pp.authBeforeFuzz;
+		sensitiveDataFile = "sensitivedata.txt";
+		sanitizeDataFile = "sanitizeddata.txt";
+	}
+	
+	public List<String> getSanitizedData() {
+		List<String> data = new ArrayList<String>();
+		
+		try {
+			Scanner input = new Scanner(new File(sanitizeDataFile));
+			while (input.hasNext()) {
+				data.add(input.nextLine());
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("FuzzerProperties: " + e.getMessage());
+		}
+		return data;
+	}
+	
+	public List<String> getSensitiveData() {
+		List<String> data = new ArrayList<String>();
+		
+		try {
+			Scanner input = new Scanner(new File(sensitiveDataFile));
+			while (input.hasNext()) {
+				data.add(input.nextLine());
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("FuzzerProperties: " + e.getMessage());
+		}
+		return data;
 	}
 }

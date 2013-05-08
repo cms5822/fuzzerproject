@@ -25,13 +25,12 @@ public class BasicFuzzer {
 	// Map of page url to inputs (query params and form fields)
 	private static final Map<String, PageInput> pagesParams = new HashMap<String, PageInput>();
 	private static final Properties properties = new Properties();
-	
 	private static final String currentPage = properties.currentPage;
 	
 	public static void main(String[] args) throws FailingHttpStatusCodeException, MalformedURLException, IOException, URISyntaxException{
 		TimedWebClient webClient = new TimedWebClient();
 		webClient.setJavaScriptEnabled(true);
-
+		
 		if(properties.authBeforeFuzz){
 			testAuthentication(webClient, properties.loginPage);
 		}
@@ -251,7 +250,7 @@ public class BasicFuzzer {
 					String newUrl = url + "?" + i;
 					try{
 						HtmlPage page = webClient.getPage(newUrl);
-						containsSensativeData(page);
+						containsSensitiveData(page);
 					} catch(Exception e){
 						System.out.println("Failed to get page " + newUrl);
 					}
@@ -287,7 +286,7 @@ public class BasicFuzzer {
 				if(submitInput != null){
 					try{
 						HtmlPage pageResult = submitInput.click();
-						containsSensativeData(pageResult);
+						containsSensitiveData(pageResult);
 						System.out.println("Form submited successfully");
 					} catch(Exception e){
 						System.out.println("Form submit exception: " + e.getMessage());
@@ -300,8 +299,21 @@ public class BasicFuzzer {
 		}
 	}
 	
-	private static boolean containsSensativeData(HtmlPage page){
-		// Todo: check junk
-		return false;
+	private static void containsSanitizedData(HtmlPage page) {		
+		for (String data : properties.getSanitizedData()) {
+			if (page.asXml().toLowerCase().contains(data.toLowerCase()) || 
+					page.getUrl().toString().toLowerCase().contains(data.toLowerCase())) {
+				System.out.println("	Improperly sanitized data found: " + data);
+			}
+		}
+	}
+	
+	private static void containsSensitiveData(HtmlPage page){
+		System.out.println("Sensitive Data: ");
+		for (String data : properties.getSensitiveData()) {
+			if (page.asXml().toLowerCase().contains(data.toLowerCase())) {
+				System.out.println("	Sensitive data found: " + data);
+			}
+		}
 	}
 }

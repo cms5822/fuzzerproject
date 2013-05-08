@@ -6,10 +6,10 @@ public class DvwaProperties extends PageProperties {
 
 	public DvwaProperties(){
 		super(
-			"http://127.0.0.1", 
-			"http://127.0.0.1/dvwa/",
+			"http://129.21.12.221", 
+			"http://129.21.12.221/dvwa/",
 			"registerPage", 
-			"http://127.0.0.1/dvwa/login.php", 
+			"http://129.21.12.221/dvwa/login.php", 
 			
 			"admin", 
 			"password",
