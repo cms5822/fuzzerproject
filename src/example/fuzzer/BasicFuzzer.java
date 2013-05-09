@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import com.gargoylesoftware.htmlunit.FailingHttpStatusCodeException;
 import com.gargoylesoftware.htmlunit.WebClient;
 import com.gargoylesoftware.htmlunit.html.DomNode;
@@ -112,7 +113,7 @@ public class BasicFuzzer {
 				}
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(param, val);
 				if(newPage){
-					System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
+					//System.out.println("Adding page " + uri.getPath() + " with query " + param + " value " + val);
 					discoverLinks(webClient, uri.toString());
 					discoverForms(webClient, webPage);
 					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
@@ -122,7 +123,7 @@ public class BasicFuzzer {
 			else{
 				newPage = pagesParams.get(uri.getPath()).addQueryInput(null, null);
 				if(newPage){
-					System.out.println("Adding page " + uri.getPath() + " with query " + null);
+					//System.out.println("Adding page " + uri.getPath() + " with query " + null);
 					discoverLinks(webClient, uri.toString());
 					discoverForms(webClient, webPage);
 					pagesParams.get(uri.getPath()).addCookies(webClient.getCookieManager().getCookies());
@@ -205,7 +206,9 @@ public class BasicFuzzer {
 			page.getElementByName(properties.loginUserFormField).setAttribute("value", properties.username);
 			page.getElementByName(properties.loginPasswordFormField).setAttribute("value", properties.password);
 			HtmlElement submit = null;
-			submit = page.getElementByName(properties.loginSubmitFormField);
+			try{
+				submit = page.getElementByName(properties.loginSubmitFormField);
+			}catch(ElementNotFoundException e){ }
 			if(submit == null){
 				submit = page.getElementById(properties.loginSubmitFormField);
 			}
@@ -260,7 +263,7 @@ public class BasicFuzzer {
 						HtmlPage page = webClient.getPage(newUrl);
 						containsSensitiveData(page);
 					} catch(Exception e){
-						System.out.println("Failed to get page " + newUrl);
+						//System.out.println("Failed to get page " + newUrl);
 					}
 				}
 				
@@ -278,7 +281,7 @@ public class BasicFuzzer {
 			try{
 				page = webClient.getPage(url);
 			} catch(Exception e){
-				System.out.println("Url: " + url + " could not be opened");
+				//System.out.println("Url: " + url + " could not be opened");
 			}
 			if(page == null){ 
 				continue; 

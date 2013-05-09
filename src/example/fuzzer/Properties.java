@@ -9,7 +9,7 @@ import java.util.Scanner;
 public class Properties {
 	//private static final PageProperties pp = new BodgeitProperties();
 	//private static final PageProperties pp = new JpetStoreProperties();
-	private static final PageProperties pp = new JpetStoreProperties();
+	private static final PageProperties pp = new DvwaProperties();
 	
 	public final String urlBase;
 	public final String currentPage;
